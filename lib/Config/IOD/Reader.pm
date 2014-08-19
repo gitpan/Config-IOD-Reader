@@ -1,7 +1,7 @@
 package Config::IOD::Reader;
 
-our $DATE = '2014-08-17'; # DATE
-our $VERSION = '0.01'; # VERSION
+our $DATE = '2014-08-18'; # DATE
+our $VERSION = '0.02'; # VERSION
 
 use 5.010001;
 use strict;
@@ -206,7 +206,7 @@ sub _read_string {
         }
 
         # directive line
-        if ($line =~ s/$directive_re//o) {
+        if ($line =~ s/$directive_re//) {
             my $directive = $1;
             if ($self->{allow_directives}) {
                 $self->_err("Directive '$directive' is not in ".
@@ -383,7 +383,7 @@ Config::IOD::Reader - Read IOD configuration files
 
 =head1 VERSION
 
-This document describes version 0.01 of Config::IOD::Reader (from Perl distribution Config-IOD-Reader), released on 2014-08-17.
+This document describes version 0.02 of Config::IOD::Reader (from Perl distribution Config-IOD-Reader), released on 2014-08-18.
 
 =head1 SYNOPSIS
 

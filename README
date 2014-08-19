@@ -2,8 +2,8 @@ NAME
     Config::IOD::Reader - Read IOD configuration files
 
 VERSION
-    This document describes version 0.01 of Config::IOD::Reader (from Perl
-    distribution Config-IOD-Reader), released on 2014-08-17.
+    This document describes version 0.02 of Config::IOD::Reader (from Perl
+    distribution Config-IOD-Reader), released on 2014-08-18.
 
 SYNOPSIS
      use Config::IOD::Reader;
