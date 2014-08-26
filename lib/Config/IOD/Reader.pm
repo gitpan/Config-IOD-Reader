@@ -1,7 +1,7 @@
 package Config::IOD::Reader;
 
-our $DATE = '2014-08-18'; # DATE
-our $VERSION = '0.02'; # VERSION
+our $DATE = '2014-08-26'; # DATE
+our $VERSION = '0.03'; # VERSION
 
 use 5.010001;
 use strict;
@@ -289,6 +289,9 @@ sub _read_string {
             }
 
             if (defined $enc) {
+                # canonicalize shorthand
+                $enc = "json" if $enc eq 'j';
+                $enc = "hex"  if $enc eq 'h';
                 if ($self->{allow_encodings}) {
                     $self->_err("Encoding '$enc' is not in ".
                                     "allow_encodings list")
@@ -299,13 +302,13 @@ sub _read_string {
                                     "disallow_encodings list")
                         if grep { $_ eq $enc } @{$self->{disallow_encodings}};
                 }
-                if ($enc eq 'j' || $enc eq 'json') {
+                if ($enc eq 'json') {
                     my $res = __decode_json($val);
                     if ($res->[0] != 200) {
                         $self->_err("Invalid JSON");
                     }
                     $val = $res->[2];
-                } elsif ($enc eq 'h' || $enc eq 'hex') {
+                } elsif ($enc eq 'hex') {
                     $val =~ s/\s*[;#].*\z//; # shave comment
                     $val = __decode_hex($val);
                 } elsif ($enc eq 'base64') {
@@ -383,15 +386,21 @@ Config::IOD::Reader - Read IOD configuration files
 
 =head1 VERSION
 
-This document describes version 0.02 of Config::IOD::Reader (from Perl distribution Config-IOD-Reader), released on 2014-08-18.
+This document describes version 0.03 of Config::IOD::Reader (from Perl distribution Config-IOD-Reader), released on 2014-08-26.
 
 =head1 SYNOPSIS
 
  use Config::IOD::Reader;
  my $reader = Config::IOD::Reader->new(
-     # known options
-     # allow_directives    => [...],
-     # disallow_directives => ['include'],
+     # list of known attributes, with their default values
+     # default_section     => 'GLOBAL',
+     # enable_encoding     => 1,
+     # enable_quoting      => 1,
+     # allow_encodings     => undef, # or ['base64','json',...]
+     # disallow_encodings  => undef, # or ['base64','json',...]
+     # allow_directives    => undef, # or ['include','merge',...]
+     # disallow_directives => undef, # or ['include','merge',...]
+     # allow_bang_only     => 1,
  );
  my $config_hash = $reader->read_file('config.iod');
 
@@ -458,7 +467,8 @@ instead of the correct:
 
  ;!foo
 
-is very common, this reader can be configured to allow it.
+is very common, the spec allows it. This reader, however, can be configured to
+be more strict.
 
 =head1 METHODS
 
@@ -489,7 +499,7 @@ Please visit the project's homepage at L<https://metacpan.org/release/Config-IOD
 
 =head1 SOURCE
 
-Source repository is at L<https://github.com/sharyanto/perl-Config-IOD-Reader>.
+Source repository is at L<https://github.com/perlancar/perl-Config-IOD-Reader>.
 
 =head1 BUGS
 
@@ -501,11 +511,11 @@ feature.
 
 =head1 AUTHOR
 
-Steven Haryanto <stevenharyanto@gmail.com>
+perlancar <perlancar@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2014 by Steven Haryanto.
+This software is copyright (c) 2014 by perlancar@cpan.org.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

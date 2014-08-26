@@ -2,15 +2,21 @@ NAME
     Config::IOD::Reader - Read IOD configuration files
 
 VERSION
-    This document describes version 0.02 of Config::IOD::Reader (from Perl
-    distribution Config-IOD-Reader), released on 2014-08-18.
+    This document describes version 0.03 of Config::IOD::Reader (from Perl
+    distribution Config-IOD-Reader), released on 2014-08-26.
 
 SYNOPSIS
      use Config::IOD::Reader;
      my $reader = Config::IOD::Reader->new(
-         # known options
-         # allow_directives    => [...],
-         # disallow_directives => ['include'],
+         # list of known attributes, with their default values
+         # default_section     => 'GLOBAL',
+         # enable_encoding     => 1,
+         # enable_quoting      => 1,
+         # allow_encodings     => undef, # or ['base64','json',...]
+         # disallow_encodings  => undef, # or ['base64','json',...]
+         # allow_directives    => undef, # or ['include','merge',...]
+         # disallow_directives => undef, # or ['include','merge',...]
+         # allow_bang_only     => 1,
      );
      my $config_hash = $reader->read_file('config.iod');
 
@@ -70,7 +76,8 @@ ATTRIBUTES
 
      ;!foo
 
-    is very common, this reader can be configured to allow it.
+    is very common, the spec allows it. This reader, however, can be
+    configured to be more strict.
 
 METHODS
   new(%attrs) => obj
@@ -95,7 +102,7 @@ HOMEPAGE
 
 SOURCE
     Source repository is at
-    <https://github.com/sharyanto/perl-Config-IOD-Reader>.
+    <https://github.com/perlancar/perl-Config-IOD-Reader>.
 
 BUGS
     Please report any bugs or feature requests on the bugtracker website
@@ -105,10 +112,10 @@ BUGS
     to an existing test-file that illustrates the bug or desired feature.
 
 AUTHOR
-    Steven Haryanto <stevenharyanto@gmail.com>
+    perlancar <perlancar@cpan.org>
 
 COPYRIGHT AND LICENSE
-    This software is copyright (c) 2014 by Steven Haryanto.
+    This software is copyright (c) 2014 by perlancar@cpan.org.
 
     This is free software; you can redistribute it and/or modify it under
     the same terms as the Perl 5 programming language system itself.
