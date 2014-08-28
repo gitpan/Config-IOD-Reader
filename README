@@ -2,8 +2,8 @@ NAME
     Config::IOD::Reader - Read IOD configuration files
 
 VERSION
-    This document describes version 0.03 of Config::IOD::Reader (from Perl
-    distribution Config-IOD-Reader), released on 2014-08-26.
+    This document describes version 0.04 of Config::IOD::Reader (from Perl
+    distribution Config-IOD-Reader), released on 2014-08-28.
 
 SYNOPSIS
      use Config::IOD::Reader;
@@ -12,6 +12,8 @@ SYNOPSIS
          # default_section     => 'GLOBAL',
          # enable_encoding     => 1,
          # enable_quoting      => 1,
+         # enable_backet       => 1,
+         # enable_brace        => 1,
          # allow_encodings     => undef, # or ['base64','json',...]
          # disallow_encodings  => undef, # or ['base64','json',...]
          # allow_directives    => undef, # or ['include','merge',...]
@@ -36,7 +38,7 @@ ATTRIBUTES
 
      name = !json null
 
-    With "disable_encoding" in effect, value will not be undef but will be
+    With "enable_encoding" turned off, value will not be undef but will be
     string with the value of (as Perl literal) "!json null".
 
   enable_quoting => bool (default: 1)
@@ -45,9 +47,29 @@ ATTRIBUTES
 
      name = "line 1\nline2"
 
-    With "disable_quoting" in effect, value will not be a two-line string,
+    With "enable_quoting" turned off, value will not be a two-line string,
     but will be a one line string with the value of (as Perl literal) "line
     1\\nline2".
+
+  enable_bracket => bool (default: 1)
+    If set to false, then JSON literal array will be parsed as verbatim.
+    Example:
+
+     name = [1,2,3]
+
+    With "enable_bracket" turned off, value will not be a three-element
+    array, but will be a string with the value of (as Perl literal)
+    "[1,2,3]".
+
+  enable_brace => bool (default: 1)
+    If set to false, then JSON literal object (hash) will be parsed as
+    verbatim. Example:
+
+     name = {"a":1,"b":2}
+
+    With "enable_brace" turned off, value will not be a hash with two pairs,
+    but will be a string with the value of (as Perl literal)
+    '{"a":1,"b":2}'.
 
   allow_encodings => array
     If defined, set list of allowed encodings. Note that if

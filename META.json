@@ -29,7 +29,7 @@
       },
       "runtime" : {
          "requires" : {
-            "IOD" : "v0.9.3",
+            "IOD" : "v0.9.6",
             "JSON" : "0",
             "perl" : "5.010001"
          }
@@ -39,7 +39,7 @@
             "File::ShareDir" : "0",
             "File::Spec" : "0",
             "IO::Handle" : "0",
-            "IOD::Examples" : "0.03",
+            "IOD::Examples" : "0.05",
             "IPC::Open3" : "0",
             "Test::Exception" : "0",
             "Test::More" : "0.98"
@@ -58,7 +58,7 @@
          "web" : "https://github.com/perlancar/perl-Config-IOD-Reader"
       }
    },
-   "version" : "0.03",
+   "version" : "0.04",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.018002"

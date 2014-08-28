@@ -20,19 +20,19 @@ my %WriteMakefileArgs = (
   "LICENSE" => "perl",
   "NAME" => "Config::IOD::Reader",
   "PREREQ_PM" => {
-    "IOD" => "v0.9.3",
+    "IOD" => "v0.9.6",
     "JSON" => 0
   },
   "TEST_REQUIRES" => {
     "File::ShareDir" => 0,
     "File::Spec" => 0,
     "IO::Handle" => 0,
-    "IOD::Examples" => "0.03",
+    "IOD::Examples" => "0.05",
     "IPC::Open3" => 0,
     "Test::Exception" => 0,
     "Test::More" => "0.98"
   },
-  "VERSION" => "0.03",
+  "VERSION" => "0.04",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -43,8 +43,8 @@ my %FallbackPrereqs = (
   "File::ShareDir" => 0,
   "File::Spec" => 0,
   "IO::Handle" => 0,
-  "IOD" => "v0.9.3",
-  "IOD::Examples" => "0.03",
+  "IOD" => "v0.9.6",
+  "IOD::Examples" => "0.05",
   "IPC::Open3" => 0,
   "JSON" => 0,
   "Test::Exception" => 0,
