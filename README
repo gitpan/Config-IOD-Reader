@@ -2,8 +2,8 @@ NAME
     Config::IOD::Reader - Read IOD configuration files
 
 VERSION
-    This document describes version 0.04 of Config::IOD::Reader (from Perl
-    distribution Config-IOD-Reader), released on 2014-08-28.
+    This document describes version 0.05 of Config::IOD::Reader (from Perl
+    distribution Config-IOD-Reader), released on 2014-08-29.
 
 SYNOPSIS
      use Config::IOD::Reader;
@@ -19,6 +19,7 @@ SYNOPSIS
          # allow_directives    => undef, # or ['include','merge',...]
          # disallow_directives => undef, # or ['include','merge',...]
          # allow_bang_only     => 1,
+         # enable_expr         => 0,
      );
      my $config_hash = $reader->read_file('config.iod');
 
@@ -26,6 +27,55 @@ DESCRIPTION
     This module reads IOD configuration files. It is a minimalist
     alternative to the more fully-featured Config::IOD. It cannot write IOD
     files and is optimized for low startup overhead.
+
+EXPRESSION
+    Config::IOD::Reader 0.05 adds experimental support for expression. This
+    allows you to do something like this:
+
+     [section1]
+     foo=1
+     bar="monkey"
+
+     [section2]
+     baz =!e 1+1
+     qux =!e "grease" . val("section1.bar")
+     quux=!e val("qux") . " " . val('baz')
+
+    And the result will be:
+
+     {
+         section1 => {foo=>1, bar=>"monkey"},
+         section2 => {baz=>2, qux=>"greasemonkey", quux=>"greasemonkey 2"},
+     }
+
+    For safety, you'll need to set "enable_expr" to 1 first.
+
+    The syntax of the expression (the "expr" encoding) is not officially
+    specified yet in the IOD specification. It will probably be Expr (see
+    Language::Expr::Manual::Syntax). At the moment, this module implements a
+    very limited subset that is compatible (lowest common denominator) with
+    Perl syntax and uses "eval()" to evaluate the expression. However, only
+    the limited subset is allowed (checked by Perl 5.10 regular expression).
+
+    The supported terms:
+
+     number
+     string (double-quoted and single-quoted)
+     undef literal
+     function call (only the 'val' function is supported)
+     grouping (parenthesis)
+
+    The supported operators are:
+
+     + - .
+     * / % x
+     **
+     unary -, unary +, !, ~
+
+    The "val()" function refers to the configuration key. If the argument
+    contains ".", it will be assumed as "SECTIONNAME.KEYNAME", otherwise it
+    will access the current section's key. Since parsing is done in a single
+    pass, you can only refer to the already mentioned key.
 
 ATTRIBUTES
   default_section => str (default: "GLOBAL")
@@ -76,9 +126,19 @@ ATTRIBUTES
     "disallow_encodings" is also set, an encoding must also not be in that
     list.
 
+    Also note that, for safety reason, if you want to enable "expr"
+    encoding, you'll also need to set "enable_expr" to 1.
+
   disallow_encodings => array
     If defined, set list of disallowed encodings. Note that if
     "allow_encodings" is also set, an encoding must also be in that list.
+
+    Also note that, for safety reason, if you want to enable "expr"
+    encoding, you'll also need to set "enable_expr" to 1.
+
+  enable_expr => bool (default: 0)
+    Whether to enable "expr" encoding. By default this is turned on, for
+    safety. Please see "EXPRESSION" for more details.
 
   allow_directives => array
     If defined, only directives listed here are allowed. Note that if
