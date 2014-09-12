@@ -1,7 +1,7 @@
 package Config::IOD::Reader::Expr;
 
-our $DATE = '2014-08-29'; # DATE
-our $VERSION = '0.05'; # VERSION
+our $DATE = '2014-09-12'; # DATE
+our $VERSION = '0.06'; # VERSION
 
 use 5.010;
 use strict;
@@ -94,7 +94,7 @@ Config::IOD::Reader::Expr - Parse expression
 
 =head1 VERSION
 
-This document describes version 0.05 of Config::IOD::Reader::Expr (from Perl distribution Config-IOD-Reader), released on 2014-08-29.
+This document describes version 0.06 of Config::IOD::Reader::Expr (from Perl distribution Config-IOD-Reader), released on 2014-09-12.
 
 =head1 HOMEPAGE
 

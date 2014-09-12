@@ -1,7 +1,7 @@
 package Config::IOD::Reader;
 
-our $DATE = '2014-08-29'; # DATE
-our $VERSION = '0.05'; # VERSION
+our $DATE = '2014-09-12'; # DATE
+our $VERSION = '0.06'; # VERSION
 
 use 5.010001;
 use strict;
@@ -215,7 +215,6 @@ sub _read_string {
     $self->{_linum} = 0;
   LINE:
     for my $line (@lines) {
-        chomp $line;
         $self->{_linum}++;
 
         $self->{_last} = '';
@@ -296,30 +295,34 @@ sub _read_string {
             my $val  = $2;
 
             my $enc;
+            my $impenc; # implicit encoding
             if ($self->{enable_encoding} && $val =~ /^!(\w+) (.*)/) {
                 $enc = $1;
                 $val = $2;
             } elsif ($self->{enable_quoting} && $val =~ /^"/) {
-                $val =~ s/\s*[;#][^"]*\z//; # allow comment if not ambiguous
+                $val =~ s/("[^"]*")\s*[;#].*/$1/; # strip comment (not perfect)
                 my $res = __decode_json($val);
                 if ($res->[0] != 200) {
                     $self->_err("Invalid JSON string");
                 }
                 $val = $res->[2];
+                $impenc++;
             } elsif ($self->{enable_bracket} && $val =~ /^\[/) {
-                $val =~ s/\s*[;#][^\]]*\z//; # allow comment if not ambiguous
+                $val =~ s/(\[[^\]]*\])\s*[;#].*/$1/; # strip comment (not perfect)
                 my $res = __decode_json($val);
                 if ($res->[0] != 200) {
                     $self->_err("Invalid JSON array");
                 }
                 $val = $res->[2];
+                $impenc++;
             } elsif ($self->{enable_brace} && $val =~ /^\{/) {
-                $val =~ s/\s*[;#][^}]*\z//; # allow comment if not ambiguous
+                $val =~ s/(\{[^\]]*\})\s*[;#].*/$1/; # strip comment (not perfect)
                 my $res = __decode_json($val);
                 if ($res->[0] != 200) {
                     $self->_err("Invalid JSON object (hash)");
                 }
                 $val = $res->[2];
+                $impenc++;
             }
 
             if (defined $enc) {
@@ -357,7 +360,9 @@ sub _read_string {
                     $self->_err("Unknown encoding '$enc'");
                 }
             } else {
-                $val =~ s/\s*[;#].*\z//; # shave comment
+                unless ($impenc) {
+                    $val =~ s/\s*[;#].*\z//; # shave comment
+                }
             }
 
             if (exists $res->{$cur_section}{$name}) {
@@ -425,7 +430,7 @@ Config::IOD::Reader - Read IOD configuration files
 
 =head1 VERSION
 
-This document describes version 0.05 of Config::IOD::Reader (from Perl distribution Config-IOD-Reader), released on 2014-08-29.
+This document describes version 0.06 of Config::IOD::Reader (from Perl distribution Config-IOD-Reader), released on 2014-09-12.
 
 =head1 SYNOPSIS
 

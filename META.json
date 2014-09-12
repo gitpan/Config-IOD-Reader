@@ -39,7 +39,7 @@
             "File::ShareDir" : "0",
             "File::Spec" : "0",
             "IO::Handle" : "0",
-            "IOD::Examples" : "0.05",
+            "IOD::Examples" : "0.08",
             "IPC::Open3" : "0",
             "Test::Exception" : "0",
             "Test::More" : "0.98"
@@ -58,7 +58,7 @@
          "web" : "https://github.com/perlancar/perl-Config-IOD-Reader"
       }
    },
-   "version" : "0.05",
+   "version" : "0.06",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.018002"
@@ -302,7 +302,7 @@
          {
             "class" : "Dist::Zilla::Plugin::Rinci::Validate",
             "name" : "@Author::PERLANCAR/Rinci::Validate",
-            "version" : "0.14"
+            "version" : "0.18"
          },
          {
             "class" : "Dist::Zilla::Plugin::SetScriptShebang",
