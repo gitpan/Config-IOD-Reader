@@ -1,7 +1,7 @@
 package Config::IOD::Reader;
 
-our $DATE = '2014-09-12'; # DATE
-our $VERSION = '0.06'; # VERSION
+our $DATE = '2015-01-03'; # DATE
+our $VERSION = '0.07'; # VERSION
 
 use 5.010001;
 use strict;
@@ -416,7 +416,7 @@ sub read_string {
 }
 
 1;
-#ABSTRACT: Read IOD configuration files
+# ABSTRACT: Read IOD configuration files
 
 __END__
 
@@ -430,7 +430,7 @@ Config::IOD::Reader - Read IOD configuration files
 
 =head1 VERSION
 
-This document describes version 0.06 of Config::IOD::Reader (from Perl distribution Config-IOD-Reader), released on 2014-09-12.
+This document describes version 0.07 of Config::IOD::Reader (from Perl distribution Config-IOD-Reader), released on 2015-01-03.
 
 =head1 SYNOPSIS
 
@@ -609,13 +609,6 @@ Read IOD configuration from a file. Die on errors.
 
 Read IOD configuration from a string. Die on errors.
 
-=head1 TODO
-
-Add attribute: C<allow_dupe_section> (default: 1).
-
-Add attribute to set behaviour when encountering duplicate key name? Default is
-create array, but we can also croak, replace, ignore.
-
 =head1 SEE ALSO
 
 L<IOD>, L<Config::IOD>, L<IOD::Examples>
@@ -626,7 +619,7 @@ Please visit the project's homepage at L<https://metacpan.org/release/Config-IOD
 
 =head1 SOURCE
 
-Source repository is at L<https://github.com/perlancar/perl-Config-IOD-Reader>.
+Source repository is at L<https://github.com/sharyanto/perl-Config-IOD-Reader>.
 
 =head1 BUGS
 
@@ -642,7 +635,7 @@ perlancar <perlancar@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2014 by perlancar@cpan.org.
+This software is copyright (c) 2015 by perlancar@cpan.org.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

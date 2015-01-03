@@ -1,11 +1,5 @@
-NAME
-    Config::IOD::Reader - Read IOD configuration files
-
-VERSION
-    This document describes version 0.06 of Config::IOD::Reader (from Perl
-    distribution Config-IOD-Reader), released on 2014-09-12.
-
 SYNOPSIS
+
      use Config::IOD::Reader;
      my $reader = Config::IOD::Reader->new(
          # list of known attributes, with their default values
@@ -24,18 +18,20 @@ SYNOPSIS
      my $config_hash = $reader->read_file('config.iod');
 
 DESCRIPTION
+
     This module reads IOD configuration files. It is a minimalist
     alternative to the more fully-featured Config::IOD. It cannot write IOD
     files and is optimized for low startup overhead.
 
 EXPRESSION
+
     Config::IOD::Reader 0.05 adds experimental support for expression. This
     allows you to do something like this:
 
      [section1]
      foo=1
      bar="monkey"
-
+    
      [section2]
      baz =!e 1+1
      qux =!e "grease" . val("section1.bar")
@@ -48,14 +44,15 @@ EXPRESSION
          section2 => {baz=>2, qux=>"greasemonkey", quux=>"greasemonkey 2"},
      }
 
-    For safety, you'll need to set "enable_expr" to 1 first.
+    For safety, you'll need to set enable_expr to 1 first.
 
-    The syntax of the expression (the "expr" encoding) is not officially
+    The syntax of the expression (the expr encoding) is not officially
     specified yet in the IOD specification. It will probably be Expr (see
-    Language::Expr::Manual::Syntax). At the moment, this module implements a
-    very limited subset that is compatible (lowest common denominator) with
-    Perl syntax and uses "eval()" to evaluate the expression. However, only
-    the limited subset is allowed (checked by Perl 5.10 regular expression).
+    Language::Expr::Manual::Syntax). At the moment, this module implements
+    a very limited subset that is compatible (lowest common denominator)
+    with Perl syntax and uses eval() to evaluate the expression. However,
+    only the limited subset is allowed (checked by Perl 5.10 regular
+    expression).
 
     The supported terms:
 
@@ -72,84 +69,96 @@ EXPRESSION
      **
      unary -, unary +, !, ~
 
-    The "val()" function refers to the configuration key. If the argument
-    contains ".", it will be assumed as "SECTIONNAME.KEYNAME", otherwise it
-    will access the current section's key. Since parsing is done in a single
-    pass, you can only refer to the already mentioned key.
+    The val() function refers to the configuration key. If the argument
+    contains ".", it will be assumed as SECTIONNAME.KEYNAME, otherwise it
+    will access the current section's key. Since parsing is done in a
+    single pass, you can only refer to the already mentioned key.
 
 ATTRIBUTES
-  default_section => str (default: "GLOBAL")
+
+ default_section => str (default: GLOBAL)
+
     If a key line is specified before any section line, this is the section
     that the key will be put in.
 
-  enable_encoding => bool (default: 1)
+ enable_encoding => bool (default: 1)
+
     If set to false, then encoding notation will be ignored and key value
     will be parsed as verbatim. Example:
 
      name = !json null
 
-    With "enable_encoding" turned off, value will not be undef but will be
+    With enable_encoding turned off, value will not be undef but will be
     string with the value of (as Perl literal) "!json null".
 
-  enable_quoting => bool (default: 1)
+ enable_quoting => bool (default: 1)
+
     If set to false, then quotes on key value will be ignored and key value
     will be parsed as verbatim. Example:
 
      name = "line 1\nline2"
 
-    With "enable_quoting" turned off, value will not be a two-line string,
+    With enable_quoting turned off, value will not be a two-line string,
     but will be a one line string with the value of (as Perl literal) "line
     1\\nline2".
 
-  enable_bracket => bool (default: 1)
+ enable_bracket => bool (default: 1)
+
     If set to false, then JSON literal array will be parsed as verbatim.
     Example:
 
      name = [1,2,3]
 
-    With "enable_bracket" turned off, value will not be a three-element
+    With enable_bracket turned off, value will not be a three-element
     array, but will be a string with the value of (as Perl literal)
     "[1,2,3]".
 
-  enable_brace => bool (default: 1)
+ enable_brace => bool (default: 1)
+
     If set to false, then JSON literal object (hash) will be parsed as
     verbatim. Example:
 
      name = {"a":1,"b":2}
 
-    With "enable_brace" turned off, value will not be a hash with two pairs,
+    With enable_brace turned off, value will not be a hash with two pairs,
     but will be a string with the value of (as Perl literal)
     '{"a":1,"b":2}'.
 
-  allow_encodings => array
+ allow_encodings => array
+
     If defined, set list of allowed encodings. Note that if
-    "disallow_encodings" is also set, an encoding must also not be in that
+    disallow_encodings is also set, an encoding must also not be in that
     list.
 
-    Also note that, for safety reason, if you want to enable "expr"
-    encoding, you'll also need to set "enable_expr" to 1.
+    Also note that, for safety reason, if you want to enable expr encoding,
+    you'll also need to set enable_expr to 1.
 
-  disallow_encodings => array
+ disallow_encodings => array
+
     If defined, set list of disallowed encodings. Note that if
-    "allow_encodings" is also set, an encoding must also be in that list.
+    allow_encodings is also set, an encoding must also be in that list.
 
-    Also note that, for safety reason, if you want to enable "expr"
-    encoding, you'll also need to set "enable_expr" to 1.
+    Also note that, for safety reason, if you want to enable expr encoding,
+    you'll also need to set enable_expr to 1.
 
-  enable_expr => bool (default: 0)
-    Whether to enable "expr" encoding. By default this is turned on, for
+ enable_expr => bool (default: 0)
+
+    Whether to enable expr encoding. By default this is turned on, for
     safety. Please see "EXPRESSION" for more details.
 
-  allow_directives => array
+ allow_directives => array
+
     If defined, only directives listed here are allowed. Note that if
-    "disallow_directives" is also set, a directive must also not be in that
+    disallow_directives is also set, a directive must also not be in that
     list.
 
-  disallow_directives => array
-    If defined, directives listed here are not allowed. Note that if
-    "allow_directives" is also set, a directive must also be in that list.
+ disallow_directives => array
 
-  allow_bang_only => bool (default: 1)
+    If defined, directives listed here are not allowed. Note that if
+    allow_directives is also set, a directive must also be in that list.
+
+ allow_bang_only => bool (default: 1)
+
     Since the mistake of specifying a directive like this:
 
      !foo
@@ -162,43 +171,18 @@ ATTRIBUTES
     configured to be more strict.
 
 METHODS
-  new(%attrs) => obj
-  $reader->read_file($filename) => hash
+
+ new(%attrs) => obj
+
+ $reader->read_file($filename) => hash
+
     Read IOD configuration from a file. Die on errors.
 
-  $reader->read_string($str) => hash
+ $reader->read_string($str) => hash
+
     Read IOD configuration from a string. Die on errors.
 
-TODO
-    Add attribute: "allow_dupe_section" (default: 1).
-
-    Add attribute to set behaviour when encountering duplicate key name?
-    Default is create array, but we can also croak, replace, ignore.
-
 SEE ALSO
+
     IOD, Config::IOD, IOD::Examples
-
-HOMEPAGE
-    Please visit the project's homepage at
-    <https://metacpan.org/release/Config-IOD-Reader>.
-
-SOURCE
-    Source repository is at
-    <https://github.com/perlancar/perl-Config-IOD-Reader>.
-
-BUGS
-    Please report any bugs or feature requests on the bugtracker website
-    <https://rt.cpan.org/Public/Dist/Display.html?Name=Config-IOD-Reader>
-
-    When submitting a bug or request, please include a test-file or a patch
-    to an existing test-file that illustrates the bug or desired feature.
-
-AUTHOR
-    perlancar <perlancar@cpan.org>
-
-COPYRIGHT AND LICENSE
-    This software is copyright (c) 2014 by perlancar@cpan.org.
-
-    This is free software; you can redistribute it and/or modify it under
-    the same terms as the Perl 5 programming language system itself.
 
